@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = require("dotenv");
 const express_1 = __importStar(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
+const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const db_1 = __importDefault(require("./lib/db"));
@@ -36,12 +37,14 @@ const db_1 = __importDefault(require("./lib/db"));
 const app = (0, express_1.default)();
 console.log("session secret:", process.env.SESSION_SECRET);
 app
+    .use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }))
     .use((0, express_session_1.default)({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { httpOnly: true, secure: true, maxAge: 3600000 } }))
     .use((0, express_1.static)("public"))
     .use((0, express_1.json)())
     .use((0, cookie_parser_1.default)())
     .use("/auth", auth_routes_1.default)
     .use("/users", async (req, res) => {
+    const users = await db_1.default.user.deleteMany();
     const accounts = await db_1.default.user.deleteMany();
     console.log(accounts);
     res.json(accounts);

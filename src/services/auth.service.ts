@@ -1,10 +1,11 @@
 import { Account, User } from '@prisma/client';
 import * as userServices from './user.service';
 import * as accountServices from './account.service';
+import * as authCodeServices from './authCode.service';
 import { generateAccessToken, generateRefreshToken } from '../lib/tokens';
 import { compare } from 'bcrypt';
 
-export async function sigupWithEmail(name: string, email: string, password: string, role?: "USER" | "ADMIN"): Promise<{user: User, account: Account}> {
+export async function sigupWithEmail(name: string, email: string, password: string, role?: "USER" | "ADMIN"): Promise<{user: User, account: Account, code: string}> {
     try {
         const user = await userServices.createUser(name, email, password, role);
         const accessToken = await generateAccessToken(user.id);
@@ -19,13 +20,14 @@ export async function sigupWithEmail(name: string, email: string, password: stri
             access_token: accessToken, 
             refresh_token: refeshToken
         });
-        return {user, account};
+        const authCode = await authCodeServices.createAuthCode(user.id, account.id);
+        return {user, account, code: authCode.code};
     } catch (err) {
         throw new Error((err as Error).message)
     } 
 }
 
-export async function  loginWithEmail(email: string, password: string): Promise<{user: User, account: Account}> {
+export async function  loginWithEmail(email: string, password: string): Promise<{user: User, account: Account, code: string}> {
     try {
         const user = await userServices.getUserByEmail(email);
         if (!user) {
@@ -48,14 +50,16 @@ export async function  loginWithEmail(email: string, password: string): Promise<
                         access_token: accessToken, 
                         refresh_token: refeshToken
                     });
-                    return {user, account};
+                    const authCode = await authCodeServices.createAuthCode(user.id, account.id);
+                    return {user, account, code: authCode.code};
                 }
                 const updatedAccount = await accountServices.updateAccount({
                     ...account,
                     access_token: accessToken,
                     refresh_token: refeshToken,
                 });
-                return {user, account: updatedAccount};
+                const authCode = await authCodeServices.createAuthCode(user.id, updatedAccount.id);
+                return {user, account: updatedAccount, code: authCode.code};
             }
         }
         throw new Error('User not found');

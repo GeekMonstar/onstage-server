@@ -27,6 +27,7 @@ exports.sigupWithEmail = sigupWithEmail;
 exports.loginWithEmail = loginWithEmail;
 const userServices = __importStar(require("./user.service"));
 const accountServices = __importStar(require("./account.service"));
+const authCodeServices = __importStar(require("./authCode.service"));
 const tokens_1 = require("../lib/tokens");
 const bcrypt_1 = require("bcrypt");
 async function sigupWithEmail(name, email, password, role) {
@@ -44,7 +45,8 @@ async function sigupWithEmail(name, email, password, role) {
             access_token: accessToken,
             refresh_token: refeshToken
         });
-        return { user, account };
+        const authCode = await authCodeServices.createAuthCode(user.id, account.id);
+        return { user, account, code: authCode.code };
     }
     catch (err) {
         throw new Error(err.message);
@@ -74,14 +76,16 @@ async function loginWithEmail(email, password) {
                         access_token: accessToken,
                         refresh_token: refeshToken
                     });
-                    return { user, account };
+                    const authCode = await authCodeServices.createAuthCode(user.id, account.id);
+                    return { user, account, code: authCode.code };
                 }
                 const updatedAccount = await accountServices.updateAccount({
                     ...account,
                     access_token: accessToken,
                     refresh_token: refeshToken,
                 });
-                return { user, account: updatedAccount };
+                const authCode = await authCodeServices.createAuthCode(user.id, updatedAccount.id);
+                return { user, account: updatedAccount, code: authCode.code };
             }
         }
         throw new Error('User not found');

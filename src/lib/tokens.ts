@@ -7,3 +7,7 @@ export async function generateAccessToken(userId: string): Promise<string> {
 export async function generateRefreshToken(userId: string): Promise<string> {
     return sign({ userId}, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
 }
+
+export async function generateAuthCode(userId: string, accountId: string): Promise<string> {
+    return sign({ userId, accountId, timestamp: Date.now()}, process.env.AUTH_CODE_SECRET!, { expiresIn: '15m' });
+}

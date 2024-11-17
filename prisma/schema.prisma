@@ -58,6 +58,17 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+model AuthCode {
+  id        String  @id @default(cuid())
+  code      String
+  expires   DateTime
+  isExpired Boolean @map("is_expired")
+  userId    String  @map("user_id")
+  accountId String  @map("account_id")
+ 
+  @@map("auth_codes")
+}
+
 enum Role {
   GOD
   LORD
