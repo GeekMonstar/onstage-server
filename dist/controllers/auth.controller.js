@@ -25,7 +25,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signupWithEmail = signupWithEmail;
 exports.loginWithEmail = loginWithEmail;
+exports.callbackWithEmail = callbackWithEmail;
 const authService = __importStar(require("../services/auth.service"));
+const authCodeService = __importStar(require("../services/authCode.service"));
+const userService = __importStar(require("../services/user.service"));
+const accountService = __importStar(require("../services/account.service"));
+const tokens_1 = require("../lib/tokens");
 async function signupWithEmail(req, res) {
     const { name, email, password } = req.body;
     const { redirect_to } = req.query;
@@ -60,6 +65,44 @@ async function loginWithEmail(req, res) {
     }
     catch (err) {
         console.log(err);
+        res.status(400).json({ message: err.message });
+    }
+}
+async function callbackWithEmail(req, res) {
+    const { code } = req.params;
+    try {
+        const auth = await authCodeService.getAuthCode(code);
+        if (!auth)
+            throw new Error("Invalid code");
+        const user = await userService.getUser(auth.userId);
+        if (!user)
+            throw new Error("User not found");
+        const accessToken = await (0, tokens_1.generateAccessToken)(user.id);
+        const refeshToken = await (0, tokens_1.generateRefreshToken)(user.id);
+        const account = await accountService.getAccount(auth.accountId);
+        if (!account)
+            throw new Error("Account not found");
+        account.access_token = accessToken;
+        account.refresh_token = refeshToken;
+        const updatedAccount = await accountService.updateAccount(account);
+        res
+            .status(200)
+            .cookie("refreshToken", refeshToken, { httpOnly: true, secure: true, maxAge: 3600000, sameSite: "none" })
+            .json({
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                image: user.image,
+                role: user.role
+            },
+            account: {
+                id: updatedAccount.id,
+                access_token: updatedAccount.access_token,
+            }
+        });
+    }
+    catch (err) {
         res.status(400).json({ message: err.message });
     }
 }
