@@ -69,10 +69,128 @@ model AuthCode {
   @@map("auth_codes")
 }
 
+model Artist {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("artists")
+}
+
+model Host {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  image     String?
+  images    String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("hosts")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  userType  String   @map("user_type")
+  userId    String   @map("user_id")
+  content   String
+  images    String[]
+  Likes     Like[]
+  Comments  Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String   @map("post_id")
+  userId    String   @map("user_id")
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  @@map("comments")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String   @map("post_id")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  @@map("likes")
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  hostId    String   @map("host_id")
+  artistId  String   @map("artist_id")
+  dateStart      DateTime @map("date_start")
+  dateEnd        DateTime @map("date_end")
+  time      String
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("bookings")
+}
+
+model conversation {
+  id        String   @id @default(cuid())
+  artistId  String   @map("artist_id")
+  hostId    String   @map("host_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("conversations")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  conversationId String @map("conversation_id")
+  autorType autorType @map("autor_type")
+  authorId  String   @map("author_id")
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("messages")
+}
+
 enum Role {
   GOD
   LORD
   SUPERADMIN
   ADMIN
   USER
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  PASSED
+}
+
+enum coversationType {
+  PRIVATE
+  GROUP
+}
+
+enum autorType {
+  ARTIST
+  HOST
 }
