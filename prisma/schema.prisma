@@ -98,8 +98,8 @@ model Host {
 
 model Post {
   id        String   @id @default(cuid())
-  userType  String   @map("user_type")
-  userId    String   @map("user_id")
+  authorType  ActorType   @map("auhor_type")
+  authorId    String   @map("author_id")
   content   String
   images    String[]
   Likes     Like[]
@@ -113,7 +113,8 @@ model Post {
 model Comment {
   id        String   @id @default(cuid())
   postId    String   @map("post_id")
-  userId    String   @map("user_id")
+  authorType  ActorType   @map("auhor_type")
+  authorId    String   @map("author_id")
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,7 +161,7 @@ model conversation {
 model Message {
   id        String   @id @default(cuid())
   conversationId String @map("conversation_id")
-  autorType autorType @map("autor_type")
+  autorType ActorType @map("autor_type")
   authorId  String   @map("author_id")
   content   String
   createdAt DateTime @default(now())
@@ -185,12 +186,12 @@ enum BookingStatus {
   PASSED
 }
 
-enum coversationType {
+enum CoversationType {
   PRIVATE
   GROUP
 }
 
-enum autorType {
+enum ActorType {
   ARTIST
   HOST
 }
