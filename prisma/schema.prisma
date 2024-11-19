@@ -162,7 +162,7 @@ model Conversation {
 model Message {
   id             String    @id @default(cuid())
   conversationId String    @map("conversation_id")
-  autorType      ActorType @map("autor_type")
+  authorType      ActorType @map("autor_type")
   authorId       String    @map("author_id")
   content        String
   createdAt      DateTime  @default(now())
