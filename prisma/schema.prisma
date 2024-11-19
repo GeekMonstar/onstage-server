@@ -14,21 +14,21 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
@@ -42,30 +42,30 @@ model User {
   image         String?
   role          Role      @default(USER)
   accounts      Account[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
   @@map("users")
 }
- 
+
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
-  userId     String @map("user_id")
- 
+  userId     String   @map("user_id")
+
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
 
 model AuthCode {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   code      String
   expires   DateTime
-  isExpired Boolean @map("is_expired")
-  userId    String  @map("user_id")
-  accountId String  @map("account_id")
- 
+  isExpired Boolean  @map("is_expired")
+  userId    String   @map("user_id")
+  accountId String   @map("account_id")
+
   @@map("auth_codes")
 }
 
@@ -78,7 +78,7 @@ model Artist {
   image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   @@map("artists")
 }
 
@@ -92,34 +92,35 @@ model Host {
   images    String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   @@map("hosts")
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  authorType  ActorType   @map("auhor_type")
-  authorId    String   @map("author_id")
-  content   String
-  images    String[]
-  Likes     Like[]
-  Comments  Comment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  id         String    @id @default(cuid())
+  authorType ActorType @map("auhor_type")
+  authorId   String    @map("author_id")
+  content    String
+  images     String[]
+  Likes      Like[]
+  Comments   Comment[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
   @@map("posts")
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  postId    String   @map("post_id")
-  authorType  ActorType   @map("auhor_type")
-  authorId    String   @map("author_id")
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
-  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id         String    @id @default(cuid())
+  postId     String    @map("post_id")
+  authorType ActorType @map("auhor_type")
+  authorId   String    @map("author_id")
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
   @@map("comments")
 }
 
@@ -129,22 +130,23 @@ model Like {
   userId    String   @map("user_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
-  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
   @@map("likes")
 }
 
 model Booking {
-  id        String   @id @default(cuid())
-  hostId    String   @map("host_id")
-  artistId  String   @map("artist_id")
-  dateStart      DateTime @map("date_start")
-  dateEnd        DateTime @map("date_end")
+  id        String        @id @default(cuid())
+  hostId    String        @map("host_id")
+  artistId  String        @map("artist_id")
+  dateStart DateTime      @map("date_start")
+  dateEnd   DateTime      @map("date_end")
   time      String
   status    BookingStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
   @@map("bookings")
 }
 
@@ -154,19 +156,19 @@ model conversation {
   hostId    String   @map("host_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   @@map("conversations")
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  conversationId String @map("conversation_id")
-  autorType ActorType @map("autor_type")
-  authorId  String   @map("author_id")
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  id             String    @id @default(cuid())
+  conversationId String    @map("conversation_id")
+  autorType      ActorType @map("autor_type")
+  authorId       String    @map("author_id")
+  content        String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
   @@map("messages")
 }
 
