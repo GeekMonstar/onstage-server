@@ -30,7 +30,7 @@ exports.getAccountsByProviderAccountId = getAccountsByProviderAccountId;
 exports.updateAccount = updateAccount;
 exports.deleteAccount = deleteAccount;
 exports.deleteAccountsByUserId = deleteAccountsByUserId;
-const AccountRepository = __importStar(require("../respositories/account.repository"));
+const AccountRepository = __importStar(require("../repositories/account.repository"));
 async function createAccount(account) {
     try {
         const _account = await AccountRepository.createAccount(account);

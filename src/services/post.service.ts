@@ -1,5 +1,5 @@
 import { ActorType, Post } from '@prisma/client';
-import * as postRepository from '../respositories/post.repository';
+import * as postRepository from '../repositories/post.repository';
 
 export async function createPost(authorType: ActorType, authorId: string, content: string): Promise<Post>{
     try{

@@ -28,7 +28,7 @@ exports.getAllLikes = getAllLikes;
 exports.getLikesByPost = getLikesByPost;
 exports.getLikesByUser = getLikesByUser;
 exports.deleteLike = deleteLike;
-const LikeRepository = __importStar(require("../respositories/like.repository"));
+const LikeRepository = __importStar(require("../repositories/like.repository"));
 async function createLike(like) {
     try {
         const _like = await LikeRepository.createLike(like);

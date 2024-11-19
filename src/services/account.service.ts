@@ -1,5 +1,5 @@
 import { Account, Prisma } from '@prisma/client';
-import * as AccountRepository from '../respositories/account.repository';
+import * as AccountRepository from '../repositories/account.repository';
 
 export async function createAccount(account: AccountRepository.AccountParams): Promise<Account>{
     try{

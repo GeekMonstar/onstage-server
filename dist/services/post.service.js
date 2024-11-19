@@ -29,7 +29,7 @@ exports.getPostsByAuthorId = getPostsByAuthorId;
 exports.getPostsByContent = getPostsByContent;
 exports.updatePost = updatePost;
 exports.deletePost = deletePost;
-const postRepository = __importStar(require("../respositories/post.repository"));
+const postRepository = __importStar(require("../repositories/post.repository"));
 async function createPost(authorType, authorId, content) {
     try {
         const post = await postRepository.createPost(authorType, authorId, content);

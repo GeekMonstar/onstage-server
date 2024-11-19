@@ -149,7 +149,7 @@ model Booking {
   @@map("bookings")
 }
 
-model conversation {
+model Conversation {
   id        String   @id @default(cuid())
   artistId  String   @map("artist_id")
   hostId    String   @map("host_id")

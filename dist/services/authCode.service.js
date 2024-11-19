@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAuthCode = createAuthCode;
 exports.getAuthCode = getAuthCode;
 exports.changeAuthCodeStatus = changeAuthCodeStatus;
-const authCodeRepository = __importStar(require("../respositories/authCode.repository"));
+const authCodeRepository = __importStar(require("../repositories/authCode.repository"));
 async function createAuthCode(userId, accountId) {
     try {
         const createdAuthCode = await authCodeRepository.createAuthCode(userId, accountId);

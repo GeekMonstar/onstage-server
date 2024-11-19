@@ -1,5 +1,5 @@
 import { AuthCode } from '@prisma/client';
-import * as authCodeRepository from '../respositories/authCode.repository';
+import * as authCodeRepository from '../repositories/authCode.repository';
 
 export async function createAuthCode(userId: string, accountId: string): Promise<AuthCode> {
     try {

@@ -23,72 +23,72 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBooking = createBooking;
-exports.getBookings = getBookings;
-exports.getBooking = getBooking;
-exports.getBookingsByHost = getBookingsByHost;
-exports.getBookingsByArtist = getBookingsByArtist;
-exports.updateBooking = updateBooking;
-exports.deleteBooking = deleteBooking;
-const bookingRepository = __importStar(require("../repositories/booking.repository"));
-async function createBooking(booking) {
+exports.createConversation = createConversation;
+exports.getConversations = getConversations;
+exports.getConversation = getConversation;
+exports.getConversationsByArtist = getConversationsByArtist;
+exports.getConversationsByHost = getConversationsByHost;
+exports.updateConversation = updateConversation;
+exports.deleteConversation = deleteConversation;
+const conversationRepository = __importStar(require("../repositories/conversation.repository"));
+async function createConversation(conversation) {
     try {
-        const _booking = await bookingRepository.createBooking(booking);
-        return _booking;
+        const _conversation = await conversationRepository.createConversation(conversation);
+        return _conversation;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function getBookings() {
+async function getConversations() {
     try {
-        const bookings = await bookingRepository.getBookings();
-        return bookings;
+        const conversations = await conversationRepository.getConversations();
+        return conversations;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function getBooking(bookingId) {
+async function getConversation(conversationId) {
     try {
-        const booking = await bookingRepository.getBooking(bookingId);
-        return booking;
+        const conversation = await conversationRepository.getConversation(conversationId);
+        return conversation;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function getBookingsByHost(hostId) {
+async function getConversationsByArtist(artistId) {
     try {
-        const bookings = await bookingRepository.getBookingsByHost(hostId);
-        return bookings;
+        const conversations = await conversationRepository.getConversationsByArtist(artistId);
+        return conversations;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function getBookingsByArtist(artistId) {
+async function getConversationsByHost(hostId) {
     try {
-        const bookings = await bookingRepository.getBookingsByArtist(artistId);
-        return bookings;
+        const conversations = await conversationRepository.getConversationsByHost(hostId);
+        return conversations;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function updateBooking(booking) {
+async function updateConversation(conversation) {
     try {
-        const _booking = await bookingRepository.updateBooking(booking);
-        return _booking;
+        const _conversation = await conversationRepository.updateConversation(conversation);
+        return _conversation;
     }
     catch (err) {
         throw new Error(err.message);
     }
 }
-async function deleteBooking(bookingId) {
+async function deleteConversation(conversationId) {
     try {
-        const booking = await bookingRepository.deleteBooking(bookingId);
-        return booking;
+        const _conversation = await conversationRepository.deleteConversation(conversationId);
+        return _conversation;
     }
     catch (err) {
         throw new Error(err.message);

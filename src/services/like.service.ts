@@ -1,5 +1,5 @@
 import { Like } from '@prisma/client';
-import * as LikeRepository from '../respositories/like.repository';
+import * as LikeRepository from '../repositories/like.repository';
 import e from 'express';
 
 export async function createLike(like: LikeRepository.LikeParams): Promise<Like>{

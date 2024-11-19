@@ -1,5 +1,5 @@
 import { Booking } from '@prisma/client';
-import * as bookingRepository from '../respositories/booking.repository';
+import * as bookingRepository from '../repositories/booking.repository';
 
 export async function createBooking(booking: bookingRepository.BookingParams): Promise<Booking>{
     try{

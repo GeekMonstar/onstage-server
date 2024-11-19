@@ -29,7 +29,7 @@ exports.getUserByEmail = getUserByEmail;
 exports.getUsers = getUsers;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
-const userRepository = __importStar(require("../respositories/user.repository"));
+const userRepository = __importStar(require("../repositories/user.repository"));
 const bcrypt_1 = require("bcrypt");
 async function createUser(name, email, password, role) {
     try {

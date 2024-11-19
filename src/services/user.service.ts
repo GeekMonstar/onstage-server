@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import * as userRepository from '../respositories/user.repository';
+import * as userRepository from '../repositories/user.repository';
 import { genSalt, hash } from 'bcrypt';
 
 export async function createUser(name: string, email: string, password: string, role: "USER" | "ADMIN" | undefined): Promise<User> {

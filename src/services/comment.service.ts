@@ -1,5 +1,5 @@
 import { Comment } from '@prisma/client';
-import * as commentRepository from '../respositories/comment.repository';
+import * as commentRepository from '../repositories/comment.repository';
 
 export async function createComment(comment: commentRepository.CommentParams): Promise<Comment>{
     try{

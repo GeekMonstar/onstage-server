@@ -28,7 +28,7 @@ exports.getComment = getComment;
 exports.getCommentsByPostId = getCommentsByPostId;
 exports.updateComment = updateComment;
 exports.deleteComment = deleteComment;
-const commentRepository = __importStar(require("../respositories/comment.repository"));
+const commentRepository = __importStar(require("../repositories/comment.repository"));
 async function createComment(comment) {
     try {
         const _comment = await commentRepository.createComment(comment);
