@@ -140,9 +140,8 @@ model Booking {
   id        String        @id @default(cuid())
   hostId    String        @map("host_id")
   artistId  String        @map("artist_id")
-  dateStart DateTime      @map("date_start")
-  dateEnd   DateTime      @map("date_end")
-  time      String
+  startsAt  DateTime      @map("starts_at")
+  endsAt    DateTime      @map("ends_at")
   status    BookingStatus @default(PENDING)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
